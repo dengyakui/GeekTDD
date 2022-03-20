@@ -31,16 +31,10 @@ public class Args
     {
         var cmdArgAttribute = parameterInfo.GetCustomAttribute<CmdArgAttribute>()!;
 
-        var parameterType = parameterInfo.ParameterType;
-
-        var parser = GetOptionParser<T>(parameterType);
-
+        var parser = Parsers[parameterInfo.ParameterType];
         Debug.Assert(parser != null, nameof(parser) + " != null");
+
         return parser.Parse(argList, cmdArgAttribute);
     }
-
-    private static IOptionParser? GetOptionParser<T>(Type parameterType) where T : class
-    {
-        return Parsers[parameterType];
-    }
+    
 }
